@@ -1,8 +1,13 @@
 package com.example.lockscreensample
 
+import android.app.KeyguardManager
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import com.example.lockscreensample.utils.LockUtils
 import kotlinx.android.synthetic.main.activity_lock_screen.*
 
 
@@ -16,6 +21,10 @@ class LockScreen : AppCompatActivity() {
                     or WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                     or WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
         )
+        val keyGuard = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            keyGuard.requestDismissKeyguard(this, null)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,5 +33,9 @@ class LockScreen : AppCompatActivity() {
         close_lock_screen_button.setOnClickListener {
             finish()
         }
+    }
+
+    override fun onBackPressed() {
+//        super.onBackPressed()
     }
 }
