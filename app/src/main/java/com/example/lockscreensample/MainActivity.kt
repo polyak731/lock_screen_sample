@@ -11,9 +11,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.lockscreensample.receivers.DeviceAdmin
 import com.example.lockscreensample.receivers.ScreenStateReceiver
-import com.example.lockscreensample.utils.LockUtils
 import kotlinx.android.synthetic.main.activity_main.*
-import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity() {
@@ -47,15 +45,13 @@ class MainActivity : AppCompatActivity() {
         }
         handleButtonsVisibility()
 
-        if (!LockUtils.doesDeviceHaveSecuritySetup(this)) {
-            try {
-                receiver = ScreenStateReceiver()
-                receiver?.let {
-                    registerReceiver(it, IntentFilter(Intent.ACTION_SCREEN_ON))
-                }
-            } catch (ex: Exception) {
-                /**NOP*/
+        try {
+            receiver = ScreenStateReceiver()
+            receiver?.let {
+                registerReceiver(it, IntentFilter(Intent.ACTION_SCREEN_ON))
             }
+        } catch (ex: Exception) {
+            /**NOP*/
         }
     }
 
