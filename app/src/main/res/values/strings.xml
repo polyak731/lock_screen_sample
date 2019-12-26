@@ -3,4 +3,6 @@
     <string name="lock_screen">Lock screen</string>
     <string name="enable_admin">Enable admin</string>
     <string name="disable_admin">Disable admin</string>
+    <string name="welcome_to_lock_screen">Welcome to lock screen</string>
+    <string name="close">Close</string>
 </resources>

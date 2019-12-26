@@ -5,11 +5,14 @@ import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.lockscreensample.receivers.DeviceAdmin
+import com.example.lockscreensample.receivers.ScreenStateReceiver
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity() {
@@ -20,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     var policyManager: DevicePolicyManager? = null
     var deviceAdmin: ComponentName? = null
+    var receiver: ScreenStateReceiver? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +45,26 @@ class MainActivity : AppCompatActivity() {
             disableAdmin()
         }
         handleButtonsVisibility()
+
+        try {
+            receiver = ScreenStateReceiver()
+            receiver?.let {
+                registerReceiver(it, IntentFilter(Intent.ACTION_SCREEN_ON))
+            }
+        } catch (ex: Exception) {
+            /**NOP*/
+        }
+    }
+
+    override fun onDestroy() {
+        try {
+            receiver?.let {
+                unregisterReceiver(it)
+            }
+        } catch (ex: Exception) {
+            /**NOP*/
+        }
+        super.onDestroy()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
