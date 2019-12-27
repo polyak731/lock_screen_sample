@@ -9,7 +9,7 @@ import com.example.lockscreensample.utils.LockUtils
 class ScreenStateReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent?) {
         if (!LockUtils.doesDeviceHaveSecuritySetup(context)) {
-            context?.startActivity(Intent(context, LockScreen::class.java))
+            context.startActivity(Intent(context, LockScreen::class.java))
         }
     }
 }
