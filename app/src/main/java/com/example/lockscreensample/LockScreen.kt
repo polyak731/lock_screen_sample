@@ -1,5 +1,6 @@
 package com.example.lockscreensample
 
+import android.app.ActivityManager
 import android.app.KeyguardManager
 import android.content.Context
 import android.os.Build
@@ -7,7 +8,6 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.example.lockscreensample.utils.LockUtils
 import kotlinx.android.synthetic.main.activity_lock_screen.*
 
 
@@ -35,7 +35,19 @@ class LockScreen : AppCompatActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        val activityManager = applicationContext
+            .getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+
+        activityManager.moveTaskToFront(taskId, 0)
+    }
+
     override fun onBackPressed() {
 //        super.onBackPressed()
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        return true
     }
 }
